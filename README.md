@@ -268,8 +268,3 @@ npm run lint       # Run ESLint
 
 Built with a focus on **scalability, maintainability, and production-ready patterns**.
 
----
-
-## 📄 License
-
-MIT License
