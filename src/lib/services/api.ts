@@ -20,6 +20,11 @@ export const api = createApi({
         params,
       }),
     }),
+    getProductDetails: builder.query<Product, { id: string }>({
+      query: ({ id }) => ({
+        url: `/products/${id}`,
+      }),
+    }),
     getProductCategoryList: builder.query<string[], void>({
       query: () => ({
         url: "/products/category-list",
@@ -30,11 +35,17 @@ export const api = createApi({
         url: `/products/category/${categoryName}`,
       }),
     }),
+    editProduct: builder.mutation<Product, {id: string}>({
+      query: ({ id }) => ({
+        url: `/products/category/${id}`,
+      }),
+    }),
   }),
 });
 
 export const {
   useGetProductsQuery,
+  useGetProductDetailsQuery,
   useGetProductCategoryListQuery,
   useLazyGetProductsByCategoryQuery,
 } = api;

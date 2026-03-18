@@ -1,9 +1,16 @@
 import { Product } from "@/types/types";
-import { Rate, Tag } from "antd";
-import { ColumnsType } from "antd/es/table";
-import Image from "next/image";
+import { Button, Image, Rate, Tag } from "antd";
+import type { ColumnsType } from "antd/es/table";
 
-export const productsColumn: ColumnsType<Product> = [
+type Props = {
+  onView: (record: Product) => void;
+  onEdit: (record: Product) => void;
+};
+
+export const getProductsColumns = ({
+  onView,
+  onEdit,
+}: Props): ColumnsType<Product> => [
   {
     title: "Image",
     dataIndex: "thumbnail",
@@ -15,6 +22,7 @@ export const productsColumn: ColumnsType<Product> = [
         width={50}
         height={50}
         style={{ objectFit: "cover", borderRadius: 8 }}
+        preview={false}
       />
     ),
   },
@@ -41,12 +49,6 @@ export const productsColumn: ColumnsType<Product> = [
     render: (price: number) => `$${price.toFixed(2)}`,
   },
   {
-    title: "Discount %",
-    dataIndex: "discountPercentage",
-    key: "discountPercentage",
-    render: (discount: number) => `${discount}%`,
-  },
-  {
     title: "Rating",
     dataIndex: "rating",
     key: "rating",
@@ -57,17 +59,20 @@ export const productsColumn: ColumnsType<Product> = [
       </div>
     ),
   },
+
+  // ✅ Actions column
   {
-    title: "Stock",
-    dataIndex: "stock",
-    key: "stock",
-  },
-  {
-    title: "Status",
-    dataIndex: "availabilityStatus",
-    key: "availabilityStatus",
-    render: (status: string) => (
-      <Tag color={status === "In Stock" ? "green" : "red"}>{status}</Tag>
+    title: "Actions",
+    key: "actions",
+    render: (_, record) => (
+      <div className="flex gap-2">
+        <Button size="small" onClick={() => onView(record)}>
+          View
+        </Button>
+        <Button size="small" type="primary" onClick={() => onEdit(record)}>
+          Edit
+        </Button>
+      </div>
     ),
   },
 ];
