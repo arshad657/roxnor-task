@@ -197,8 +197,8 @@ src/
 ### 1. Clone the repository
 
 ```bash
-git clone <your-repo-url>
-cd your-project
+git clone https://github.com/arshad657/roxnor-task.git
+cd roxnor-task
 ```
 
 ---
@@ -219,10 +219,10 @@ yarn install
 
 ### 3. Setup environment variables
 
-Create a `.env.local` file:
+Create a `.env` file:
 
 ```env
-NEXT_PUBLIC_API_BASE_URL=https://dummyjson.com
+NEXT_PUBLIC_API_BASE_URL=https://dummyjson.com/
 ```
 
 ---
@@ -274,7 +274,7 @@ npm run lint       # Run ESLint
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 Arshad Almas
 
 Built with a focus on **scalability, maintainability, and production-ready patterns**.
 
