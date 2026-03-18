@@ -25,12 +25,11 @@ The project follows a **feature-first architecture**:
 
 ```
 src/
-  features/
+  app/
     products/
-      components/
-      columns/
-      types.ts
-      productApi.ts
+      [id]/
+        page.tsx
+      page.tsx
 ```
 
 **Why?**
@@ -71,7 +70,7 @@ getProducts: builder.query<ProductsResponse, GetProductsQuery>({
 | ------------- | -------------------- |
 | `types.ts`    | Data contracts       |
 | `columns/`    | Table configuration  |
-| `components/` | UI logic             |
+| `components/` | UI components        |
 | `api/`        | Server communication |
 
 ---
@@ -135,7 +134,7 @@ useGetProductsQuery({
 
 ### 8. Loading UX (Skeletons)
 
-Replaced spinners with **Skeleton loaders**
+Used **Skeleton loaders** instead of spinners 
 
 **Why?**
 
@@ -166,21 +165,29 @@ instead of static `message`
 
 ```
 src/
-  app/
-  features/
-    products/
-      components/
-      columns/
+    app/
+      products/
+        [id]/
+          page.tsx
+        page.tsx
+    components/
+      ProductDetails/
+        ProductDetailsPageClient.tsx/
+        ProductDetailsSkeleton.tsx/
+      ProductList/
+        column.tsx/
+        ProductPageClient.tsx
+        ProductTablesSkeleton.tsx/
       ProductEditDrawer.tsx
-      ProductDetailSkeleton.tsx
-      ProductsTableSkeleton.tsx
-      types.ts
-      productApi.ts
+  types/
+    types.ts
   lib/
     redux/
       store.ts
+      hooks.ts
       provider.tsx
-  types/
+    services/
+      api.ts
 ```
 
 ---
