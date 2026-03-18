@@ -264,16 +264,6 @@ npm run lint       # Run ESLint
 
 ---
 
-## 🚀 Future Improvements
-
-* RTK Query mutation for update API
-* Pagination + server-side filtering
-* Optimistic updates
-* Role-based access control
-* Unit & integration tests
-
----
-
 ## 👨‍💻 Arshad Almas
 
 Built with a focus on **scalability, maintainability, and production-ready patterns**.
