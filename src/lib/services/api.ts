@@ -1,5 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Product } from "@/types/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+type ProductsResponse = {
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
+};
 
 export const api = createApi({
   reducerPath: "api",
@@ -7,7 +14,7 @@ export const api = createApi({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
   }),
   endpoints: (builder) => ({
-    getProducts: builder.query<any[], void>({
+    getProducts: builder.query<ProductsResponse, void>({
       query: () => "/products",
     }),
   }),

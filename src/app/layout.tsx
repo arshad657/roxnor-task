@@ -5,7 +5,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Roxnor Task - Arshad Almas",
-  description: "Next.js app with RTK, RTK Query, Antd, Tailwind, Styled Components",
+  description:
+    "Next.js app with RTK, RTK Query, Antd, Tailwind, Styled Components",
 };
 
 export default function RootLayout({
