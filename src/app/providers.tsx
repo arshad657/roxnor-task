@@ -1,9 +1,13 @@
 "use client";
 
+import { App as AntdApp, ConfigProvider } from "antd";
 import ReduxProvider from "@/lib/redux/provider";
-import { ConfigProvider } from "antd";
 
-export default function Providers({ children }: { children: React.ReactNode }) {
+export default function Providers({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <ReduxProvider>
       <ConfigProvider
@@ -14,7 +18,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
           },
         }}
       >
-        {children}
+        <AntdApp>{children}</AntdApp>
       </ConfigProvider>
     </ReduxProvider>
   );

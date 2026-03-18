@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
   Avatar,
@@ -12,7 +13,6 @@ import {
   Rate,
   Row,
   Space,
-  Spin,
   Tag,
   Typography,
 } from "antd";
@@ -22,10 +22,12 @@ import {
   TagOutlined,
 } from "@ant-design/icons";
 import { useGetProductDetailsQuery } from "@/lib/services/api";
+import ProductEditDrawer from "../ProductEditDrawer";
+import ProductDetailSkeleton from "./ProductDetailsSkeleton";
 
 const { Title, Text, Paragraph } = Typography;
 
-// 🔹 Helper: format date
+//Helper: format date
 const formatDate = (date: string) =>
   new Date(date).toLocaleDateString("en-US", {
     year: "numeric",
@@ -33,14 +35,14 @@ const formatDate = (date: string) =>
     day: "numeric",
   });
 
-// 🔹 Helper: stock color
+//Helper: stock color
 const getStockTagColor = (status: string) => {
   if (status.toLowerCase().includes("in stock")) return "green";
   if (status.toLowerCase().includes("low")) return "orange";
   return "red";
 };
 
-// 🔹 Reusable info block
+//Reusable info block
 function InfoItem({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-1 rounded-xl border border-gray-200 bg-white p-4">
@@ -54,26 +56,29 @@ function ProductDetailPageClient() {
   const router = useRouter();
   const params = useParams();
 
-  // 🔹 Extract id from route
+  //Drawer visibility state
+  const [isEditDrawerOpen, setIsEditDrawerOpen] = useState(false);
+
+  //Extract id from route
   const id = params?.id as string;
 
-  // 🔹 Fetch product using RTK Query
+  //Fetch product using RTK Query
   const {
     data: product,
     isLoading,
     isError,
   } = useGetProductDetailsQuery({ id });
 
-  // 🔹 Loading state
+  //Loading state
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <Spin size="large" />
+        <ProductDetailSkeleton />
       </div>
     );
   }
 
-  // 🔹 Error state
+  //Error state
   if (isError || !product) {
     return (
       <div className="text-center text-red-600">Failed to load product</div>
@@ -99,7 +104,7 @@ function ProductDetailPageClient() {
           <Button
             type="primary"
             icon={<EditOutlined />}
-            onClick={() => router.push(`/products/${product.id}/edit`)}
+            onClick={() => setIsEditDrawerOpen(true)}
           >
             Edit
           </Button>
@@ -107,7 +112,7 @@ function ProductDetailPageClient() {
       </div>
 
       <Row gutter={[24, 24]}>
-        {/* 🔹 Images */}
+        {/*Images */}
         <Col xs={24} lg={14}>
           <Card>
             <Image src={product.thumbnail} alt={product.title} />
@@ -119,7 +124,7 @@ function ProductDetailPageClient() {
           </Card>
         </Col>
 
-        {/* 🔹 Summary */}
+        {/*Summary */}
         <Col xs={24} lg={10}>
           <Card>
             <Space wrap className="mb-2">
@@ -159,7 +164,7 @@ function ProductDetailPageClient() {
           </Card>
         </Col>
 
-        {/* 🔹 Reviews */}
+        {/*Reviews */}
         <Col span={24}>
           <Card title="Reviews">
             {product.reviews?.map((review, i) => (
@@ -179,6 +184,13 @@ function ProductDetailPageClient() {
           </Card>
         </Col>
       </Row>
+
+      {/* Edit Product Drawer */}
+      <ProductEditDrawer
+        open={isEditDrawerOpen}
+        onClose={() => setIsEditDrawerOpen(false)}
+        product={product}
+      />
     </div>
   );
 }

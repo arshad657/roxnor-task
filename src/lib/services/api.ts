@@ -1,4 +1,4 @@
-import { GetProductsQuery, Product } from "@/types/types";
+import { GetProductsQuery, Product, ProductEditFormValues } from "@/types/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 type ProductsResponse = {
@@ -19,11 +19,13 @@ export const api = createApi({
         url: "/products/search",
         params,
       }),
+      providesTags: ["products"]
     }),
     getProductDetails: builder.query<Product, { id: string }>({
       query: ({ id }) => ({
         url: `/products/${id}`,
       }),
+      providesTags: ["products"]
     }),
     getProductCategoryList: builder.query<string[], void>({
       query: () => ({
@@ -35,12 +37,16 @@ export const api = createApi({
         url: `/products/category/${categoryName}`,
       }),
     }),
-    editProduct: builder.mutation<Product, {id: string}>({
-      query: ({ id }) => ({
-        url: `/products/category/${id}`,
+    editProduct: builder.mutation<Product, {id: number, data: ProductEditFormValues}>({
+      query: ({ id, data }) => ({
+        url: `/products/${id}`,
+        method: "PUT",
+        body: data
       }),
+      invalidatesTags: ["products"]
     }),
   }),
+  tagTypes: ["products"]
 });
 
 export const {
@@ -48,4 +54,5 @@ export const {
   useGetProductDetailsQuery,
   useGetProductCategoryListQuery,
   useLazyGetProductsByCategoryQuery,
+  useEditProductMutation
 } = api;

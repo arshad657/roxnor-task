@@ -1,3 +1,20 @@
+export type ProductEditFormValues = {
+  title: string;
+  description: string;
+  category: string;
+  brand: string;
+  price: number;
+  discountPercentage: number;
+  stock: number;
+  sku: string;
+  weight: number;
+  availabilityStatus: string;
+  warrantyInformation: string;
+  shippingInformation: string;
+  returnPolicy: string;
+  minimumOrderQuantity: number;
+  tags: string[];
+};
 
 export type ProductDimensions = {
   width: number;

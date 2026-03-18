@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Input, Select, Spin, Table } from "antd";
+import { Input, Select, Table } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { Product } from "@/types/types";
 import {
@@ -12,13 +12,19 @@ import {
 import { getProductsColumns } from "./column";
 import { useRouter } from "next/navigation";
 import Title from "antd/es/typography/Title";
+import ProductsTableSkeleton from "./ProductTableSkeleton";
+import ProductEditDrawer from "../ProductEditDrawer";
 
 export default function ProductsPageClient() {
   const router = useRouter();
   const [searchInput, setSearchInput] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState<Product>();
   const [selectedCategory, setSelectedCategory] = useState<
     string | undefined
   >();
+
+  //Drawer visibility state
+  const [isEditDrawerOpen, setIsEditDrawerOpen] = useState(false);
 
   //Fetch all products (with optional search query)
   const { data, isLoading, isError } = useGetProductsQuery({
@@ -45,8 +51,8 @@ export default function ProductsPageClient() {
   };
 
   const handleEdit = (product: Product) => {
-    console.log("Edit:", product);
-    router.push(`/products/edit/${product.id}`);
+    setIsEditDrawerOpen(true);
+    setSelectedProduct(product);
   };
 
   //Trigger category-based fetch when category changes
@@ -77,7 +83,7 @@ export default function ProductsPageClient() {
   if (isLoading || isCategoryProductsLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <Spin size="large" />
+        <ProductsTableSkeleton />
       </div>
     );
   }
@@ -128,6 +134,13 @@ export default function ProductsPageClient() {
         dataSource={displayProducts}
         scroll={{ x: 1200 }}
         pagination={{ pageSize: 10 }}
+      />
+
+      {/* Edit Product Drawer */}
+      <ProductEditDrawer
+        open={isEditDrawerOpen}
+        onClose={() => setIsEditDrawerOpen(false)}
+        product={selectedProduct}
       />
     </div>
   );
