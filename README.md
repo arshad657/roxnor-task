@@ -179,15 +179,15 @@ src/
         ProductPageClient.tsx
         ProductTablesSkeleton.tsx/
       ProductEditDrawer.tsx
-  types/
-    types.ts
-  lib/
-    redux/
-      store.ts
-      hooks.ts
-      provider.tsx
-    services/
-      api.ts
+    types/
+      types.ts
+    lib/
+      redux/
+        store.ts
+        hooks.ts
+        provider.tsx
+      services/
+        api.ts
 ```
 
 ---
