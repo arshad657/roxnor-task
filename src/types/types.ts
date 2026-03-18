@@ -1,7 +1,12 @@
+
 export type ProductDimensions = {
   width: number;
   height: number;
   depth: number;
+};
+
+export type GetProductsQuery = {
+  q: string;
 };
 
 export type ProductReview = {

@@ -1,4 +1,4 @@
-import { Product } from "@/types/types";
+import { GetProductsQuery, Product } from "@/types/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 type ProductsResponse = {
@@ -14,10 +14,27 @@ export const api = createApi({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
   }),
   endpoints: (builder) => ({
-    getProducts: builder.query<ProductsResponse, void>({
-      query: () => "/products",
+    getProducts: builder.query<ProductsResponse, GetProductsQuery>({
+      query: (params) => ({
+        url: "/products/search",
+        params,
+      }),
+    }),
+    getProductCategoryList: builder.query<string[], void>({
+      query: () => ({
+        url: "/products/category-list",
+      }),
+    }),
+    getProductsByCategory: builder.query<ProductsResponse, {categoryName: string}>({
+      query: ({ categoryName }) => ({
+        url: `/products/category/${categoryName}`,
+      }),
     }),
   }),
 });
 
-export const { useGetProductsQuery } = api;
+export const {
+  useGetProductsQuery,
+  useGetProductCategoryListQuery,
+  useLazyGetProductsByCategoryQuery,
+} = api;
