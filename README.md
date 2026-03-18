@@ -1,36 +1,278 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛍️ Product Management Dashboard
 
-## Getting Started
+A modern product management dashboard built with **Next.js (App Router)**, **TypeScript**, **Redux Toolkit (RTK Query)**, and **Ant Design**.
 
-First, run the development server:
+This project demonstrates scalable frontend architecture, efficient data fetching, and clean UI composition.
+
+---
+
+## 🚀 Tech Stack
+
+* **Framework:** Next.js (App Router)
+* **Language:** TypeScript
+* **State Management:** Redux Toolkit
+* **Data Fetching:** RTK Query
+* **UI Library:** Ant Design
+* **Styling:** Tailwind CSS + Styled Components
+
+---
+
+## 🧠 Architecture Decisions
+
+### 1. Feature-Based Folder Structure
+
+The project follows a **feature-first architecture**:
+
+```
+src/
+  features/
+    products/
+      components/
+      columns/
+      types.ts
+      productApi.ts
+```
+
+**Why?**
+
+* Improves scalability
+* Keeps related logic co-located
+* Reduces cross-module dependency
+
+---
+
+### 2. RTK Query for Data Fetching
+
+Used **RTK Query** instead of Axios/React Query.
+
+**Benefits:**
+
+* Built-in caching
+* Automatic loading & error states
+* API slice centralization
+* Easy mutation handling
+
+Example:
+
+```ts
+getProducts: builder.query<ProductsResponse, GetProductsQuery>({
+  query: (params) => ({
+    url: "/products",
+    params,
+  }),
+});
+```
+
+---
+
+### 3. Separation of Concerns
+
+| Layer         | Responsibility       |
+| ------------- | -------------------- |
+| `types.ts`    | Data contracts       |
+| `columns/`    | Table configuration  |
+| `components/` | UI logic             |
+| `api/`        | Server communication |
+
+---
+
+### 4. Reusable Table Columns
+
+Columns are extracted into separate files:
+
+```
+columns/productColumns.tsx
+```
+
+**Why?**
+
+* Reusability across pages
+* Cleaner component files
+* Easier testing and maintenance
+
+---
+
+### 5. Drawer-Based Editing UX
+
+Instead of navigating to a new page, editing is done via:
+
+👉 **Ant Design Drawer**
+
+**Why?**
+
+* Better UX (no page reload)
+* Keeps context visible
+* Faster workflows
+
+---
+
+### 6. Form Handling Strategy
+
+* Ant Design `Form`
+* Custom validation rules
+* Centralized `form` instance (parent-controlled)
+
+**Why?**
+
+* Avoids uncontrolled state issues
+* Prevents Ant Design warnings
+* Better lifecycle control
+
+---
+
+### 7. Search & Filtering Strategy
+
+* Search handled via RTK Query params
+* Category filter via API or local state
+
+```ts
+useGetProductsQuery({
+  q: searchInput,
+});
+```
+
+---
+
+### 8. Loading UX (Skeletons)
+
+Replaced spinners with **Skeleton loaders**
+
+**Why?**
+
+* Prevents layout shift
+* Improves perceived performance
+* Matches production UX standards
+
+---
+
+### 9. Ant Design App Provider Fix
+
+Used:
+
+```tsx
+<App>
+```
+
+instead of static `message`
+
+**Why?**
+
+* Supports dynamic theming
+* Avoids context warnings
+
+---
+
+## 📂 Folder Structure
+
+```
+src/
+  app/
+  features/
+    products/
+      components/
+      columns/
+      ProductEditDrawer.tsx
+      ProductDetailSkeleton.tsx
+      ProductsTableSkeleton.tsx
+      types.ts
+      productApi.ts
+  lib/
+    redux/
+      store.ts
+      provider.tsx
+  types/
+```
+
+---
+
+## ⚙️ Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone <your-repo-url>
+cd your-project
+```
+
+---
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+or
+
+```bash
+yarn install
+```
+
+---
+
+### 3. Setup environment variables
+
+Create a `.env.local` file:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=https://dummyjson.com
+```
+
+---
+
+### 4. Run development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+App will be available at:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🧪 Available Scripts
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run dev        # Start dev server
+npm run build      # Build production
+npm run start      # Run production build
+npm run lint       # Run ESLint
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📌 Key Features
 
-## Deploy on Vercel
+* ✅ Product listing with search
+* ✅ Category filtering
+* ✅ Product detail page
+* ✅ Drawer-based editing
+* ✅ Form validation
+* ✅ Skeleton loading UI
+* ✅ Modular architecture
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚀 Future Improvements
+
+* RTK Query mutation for update API
+* Pagination + server-side filtering
+* Optimistic updates
+* Role-based access control
+* Unit & integration tests
+
+---
+
+## 👨‍💻 Author
+
+Built with a focus on **scalability, maintainability, and production-ready patterns**.
+
+---
+
+## 📄 License
+
+MIT License
